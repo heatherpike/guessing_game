@@ -21,14 +21,15 @@ a {
 h1 {
   font-size: 60px;
 }
-.intro {
+.info {
   max-width: 500px;
   padding: 10px;
   margin: 20px auto;
-  color: #ff4466;
+  color: #ddd;
   text-align: center;
   font-family: verdana;
   border-radius: 25%;
+  font-size: 20px;
 }
 .game-box {
   border: #fff solid 5px;
@@ -47,6 +48,7 @@ h1 {
   font-family: 'Bubblegum Sans', cursive;
   font-size: 36px;
   text-shadow: 4px 4px 10px #000;
+
 }
 .game-box input {
   display: block;
@@ -67,7 +69,7 @@ h1 {
 }
 .game-buttons {
   width: 500px;
-  height: 250px;
+  height: auto;
   display: block;
   margin: 20px auto;
   

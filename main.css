@@ -1,0 +1,90 @@
+html, body, h1, h2, h3, p, ol, ul, li, a {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  font-size: 100%;
+  font: inherit;
+}
+header {
+  text-align: center;
+  background: #222;
+  color: #fff;
+  font-family: 'Bubblegum Sans', cursive;
+  margin: 20px auto;
+}
+body {
+  background: #222;
+}
+a {
+  color: black;
+}
+h1 {
+  font-size: 60px;
+}
+.intro {
+  max-width: 500px;
+  padding: 10px;
+  margin: 20px auto;
+  color: #ff4466;
+  text-align: center;
+  font-family: verdana;
+  border-radius: 25%;
+}
+.game-box {
+  border: #fff solid 5px;
+  border-radius: 5px;
+  background: url(images/question-marks.png) repeat;
+  max-width: 500px;
+  max-height: 250px;
+  display: block;
+  margin: 10px auto;
+}
+.game-box label {
+  display: block;
+  margin: 10px auto;
+  color: #fff;
+  text-align: center;
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 36px;
+  text-shadow: 4px 4px 10px #000;
+}
+.game-box input {
+  display: block;
+  height: 100px;
+  width: 200px;
+  font-size: 20px;
+  margin: 15px auto;
+  text-align: center;
+}
+.game-box input[type=submit] {
+  display: block;
+  font-size: 25px;
+  background: #ff4466;
+  margin: 5px auto;
+  height: auto;
+  padding: 0;
+  border-radius: 5px;
+}
+.game-buttons {
+  width: 500px;
+  height: 250px;
+  display: block;
+  margin: 20px auto;
+  
+}
+.game-buttons button {
+  font-size: 25px;
+  background: #ff4466;
+  width: 248px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 5px;
+
+}
+footer {
+    margin: 10px;
+    text-align: center;
+    color: #ff0066;
+    font-family: verdana;
+    font-size: 10px;
+}

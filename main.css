@@ -85,6 +85,9 @@ h1 {
 .winner {
   background: #fff;
 }
+/*.guessList {
+  display: none;
+}*/
 footer {
     margin: 10px;
     text-align: center;

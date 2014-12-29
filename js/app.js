@@ -14,7 +14,11 @@ function isWinner() {
 function hotOrCold() {
 	//determine absolute value of diff between guess and number
 	var distance = Math.abs(num - $guess);
-
+	if (distance < 10) {
+		$("#hotGuesses").append("<li>"+$guess+"</li>");
+	} else {
+		$("#coldGuesses").append("<li>"+$guess+"</li>");
+	}
 	//if abs diff < 4, super hot
 	if (distance < 4) {
 		return "super hot";
@@ -59,31 +63,28 @@ function gettingWarmer() {
 	}
 }
 
-// function repeatingYourself () {
-//     for(var i=0;i<guesses.length;i++)
-//     {
-//         if(guesses[i] === $guess) {
-//         	return true;
-//         } else {
-//         	return false;
-//         }
-//     }
-// }
+function repeatingYourself () {
+    for(var i=0;i<guesses.length;i++)
+    {
+        if(guesses[i] === $guess) {
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+}
 
 function startNewGame() {
 	num = Math.ceil(Math.random()*100);
 	guesses = [];
 	guessesLeft = 5;
-	console.log("num is " + num);	
+	$("#updates p").text("Let's try this again with a new number. You have 5 guesses.");
 	$(".game-box").removeClass("winner");
 	$("#number-guess").val(function(){
 	        return this.defaultValue;
 	    });
 }
 
-//display number of guesses left - starts at 5
-
-//keep a list on display of Hot and Cold answers
 
 $("#number-guess").on("keypress", function (event) {
 	if (event.which == 13) {
@@ -106,21 +107,22 @@ $("#submit-guess").on("click", function () {
 	} else {
 	$guess = +$("#number-guess").val();
 		//if input is not a valid number bet 1-100, alert user
-		if (isNaN($guess) || ($guess == "") || ($guess%1 != 0)) {
+		if (isNaN($guess) || ($guess == "") || ($guess%1 != 0) || ($guess > 100) || ($guess <1)) {
 			alert("You need to submit a valid integer between 1 and 100 to play.");
 		} else {
 			//Determine whether the guess matches number & alert user
 			if (isWinner()) {
 				$(".game-box").addClass("winner"); //change background color or do something else exciting
 				alert("You win!");
-				startNewGame();			
+				startNewGame();		
+			//if user runs out of guesses, let them know and start a new game		
 			} else if (!isWinner() && (guessesLeft === 1)) {
 				alert("Sorry, you're out of guesses. Let's start over.");
 				startNewGame();
 			} else {
 				
-				//tell user if they are hot or cold and getting hotter or colder
-				if ($guess == guesses[guesses.length-1]) {
+				//tell user if they repeated any guesses, how hot or cold, and getting hotter or colder
+				  if (repeatingYourself()) {		
 					alert("You're repeating yourself!");
 				} else if (guesses.length > 0) {
 				alert("You're " + hotOrCold() + " but " + gettingWarmer() + "! Guess " + higherOrLower() + ".");
@@ -131,6 +133,12 @@ $("#submit-guess").on("click", function () {
 				guesses.push($guess);
 				guessesLeft--;
 				console.log(guesses, guessesLeft); //log to console to test	
+				$("#updates p").text("Your guesses so far were " + guesses.join(", ") + ". Guesses left: " + guessesLeft + ".");
+
+				//keep a list on display of Hot and Cold answers - need to work on this more
+				//if ($("#hotGuesses").length > 1 || ("#coldGuesses").length > 1) {
+				//	$(".guessList").css("display", "inline");
+				//}
 			}
 			
 
@@ -141,9 +149,6 @@ $("#submit-guess").on("click", function () {
 	    });
 	}
 	});
-
-
-//when number of guesses reaches 0, disable submit button & alert game over
 
 
 

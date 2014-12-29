@@ -85,6 +85,12 @@ function startNewGame() {
 
 //keep a list on display of Hot and Cold answers
 
+$("#number-guess").on("keypress", function (event) {
+	if (event.which == 13) {
+		$("#submit-guess").click();
+	}
+});
+
 $("#number-guess").on("click", function() {
 	if (guessesLeft === 0) {
 		$(this).val("Sorry, you're out of guesses!");

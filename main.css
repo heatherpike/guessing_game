@@ -81,7 +81,9 @@ h1 {
   height: auto;
   margin: 0 auto;
   border-radius: 5px;
-
+}
+.winner {
+  background: #fff;
 }
 footer {
     margin: 10px;

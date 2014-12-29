@@ -59,63 +59,95 @@ function gettingWarmer() {
 	}
 }
 
+// function repeatingYourself () {
+//     for(var i=0;i<guesses.length;i++)
+//     {
+//         if(guesses[i] === $guess) {
+//         	return true;
+//         } else {
+//         	return false;
+//         }
+//     }
+// }
+
+function startNewGame() {
+	num = Math.ceil(Math.random()*100);
+	guesses = [];
+	guessesLeft = 5;
+	console.log("num is " + num);	
+	$(".game-box").removeClass("winner");
+	$("#number-guess").val(function(){
+	        return this.defaultValue;
+	    });
+}
+
 //display number of guesses left - starts at 5
 
+//keep a list on display of Hot and Cold answers
+
+$("#number-guess").on("click", function() {
+	if (guessesLeft === 0) {
+		$(this).val("Sorry, you're out of guesses!");
+		startNewGame();
+	}
+});
 
 //User to input a guess in the game-box input field
 $("#submit-guess").on("click", function () {
-	
-	$guess = +$("#number-guess").val();
-	console.log($guess); //log to console to test
-	
-//User submits guess via submit button or hitting enter
-
-//if input is not a valid number bet 1-100, alert user
-	if (isNaN($guess) || ($guess == "") || ($guess%1 != 0)) {
-		alert("You need to submit a valid integer between 1 and 100 to play.");
+	if (guessesLeft == 0) {
+		alert("Game over!");
+		startNewGame();
 	} else {
-		//Determine whether the guess matches number & alert user
-		if (isWinner()) {
-			$(".game-box").css("background", "#fff"); //change background color or do something else exciting
-			alert("You win!");
-			guessesLeft = 0;			
-		}
-
-		else {
-			
-			//tell user if they are hot or cold and getting hotterr or colder
-			if ($guess == guesses[guesses.length-1]) {
-			alert("You're repeating yourself!");
-			} else if (guesses.length > 0) {
-			alert("You're " + hotOrCold() + " but " + gettingWarmer() + "! Guess " + higherOrLower() + ".");
-			}	else {
-			alert("You're " + hotOrCold() + "! Guess " + higherOrLower());
+	$guess = +$("#number-guess").val();
+		//if input is not a valid number bet 1-100, alert user
+		if (isNaN($guess) || ($guess == "") || ($guess%1 != 0)) {
+			alert("You need to submit a valid integer between 1 and 100 to play.");
+		} else {
+			//Determine whether the guess matches number & alert user
+			if (isWinner()) {
+				$(".game-box").addClass("winner"); //change background color or do something else exciting
+				alert("You win!");
+				startNewGame();			
+			} else if (!isWinner() && (guessesLeft === 1)) {
+				alert("Sorry, you're out of guesses. Let's start over.");
+				startNewGame();
+			} else {
+				
+				//tell user if they are hot or cold and getting hotter or colder
+				if ($guess == guesses[guesses.length-1]) {
+					alert("You're repeating yourself!");
+				} else if (guesses.length > 0) {
+				alert("You're " + hotOrCold() + " but " + gettingWarmer() + "! Guess " + higherOrLower() + ".");
+				}	else {
+				alert("You're " + hotOrCold() + "! Guess " + higherOrLower());
+				}
+				//add current guess to log of previous guesses and lower number of guesses left
+				guesses.push($guess);
+				guessesLeft--;
+				console.log(guesses, guessesLeft); //log to console to test	
 			}
-			//add current guess to log of previous guesses and lower number of guesses left
-			guesses.push($guess);
-			guessesLeft--;
-			console.log(guesses); //log to console to test
+			
+
 		}
 		
-
-		}
-	
+		$("#number-guess").val(function(){
+	        return this.defaultValue;
+	    });
+	}
 	});
 
 
 //when number of guesses reaches 0, disable submit button & alert game over
 
+
+
 //Start Over button allows user to start a new game
 	//new random num generated
-	//guesses reset to 5
-$("#newGame").on("click", function() {
-	num = Math.ceil(Math.random()*100);
-	guessesLeft = 5;
-	console.log("num is " + num);
-});
+	//guessesLeft reset to 5
+$("#newGame").on("click", startNewGame);
+
 //Get a Hint button tells user the answer
 $("#hint").on("click", function() {
 	alert("The correct number is "+num+"!");
-	guessesLeft = 0;
-	 
+	//guessesLeft--;	 
 });

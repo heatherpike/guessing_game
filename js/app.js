@@ -5,7 +5,9 @@
 var num = Math.ceil(Math.random()*100);
 var $guess = null;
 var guesses = [];
+var guessesByTemp = [];
 var guessesLeft = 5;
+var hintsLeft = 2;
 
 function isWinner() {
 	return ($guess === num);
@@ -14,11 +16,6 @@ function isWinner() {
 function hotOrCold() {
 	//determine absolute value of diff between guess and number
 	var distance = Math.abs(num - $guess);
-	if (distance < 10) {
-		$("#hotGuesses").append("<li>"+$guess+"</li>");
-	} else {
-		$("#coldGuesses").append("<li>"+$guess+"</li>");
-	}
 	//if abs diff < 4, super hot
 	if (distance < 4) {
 		return "super hot";
@@ -64,9 +61,8 @@ function gettingWarmer() {
 }
 
 function repeatingYourself () {
-    for(var i=0;i<guesses.length;i++)
-    {
-        if(guesses[i] === $guess) {
+    for(var i=0;i<guesses.length;i++) {
+        if(guesses[i] == $guess) {
         	return true;
         } else {
         	return false;
@@ -78,14 +74,15 @@ function startNewGame() {
 	num = Math.ceil(Math.random()*100);
 	guesses = [];
 	guessesLeft = 5;
+	hintsLeft = 2;
 	$("#updates p").text("Let's try this again with a new number. You have 5 guesses.");
-	$(".game-box").removeClass("winner");
+	$("body").removeClass("winner");
 	$("#number-guess").val(function(){
 	        return this.defaultValue;
 	    });
 }
 
-
+//enable submit by pressing enter
 $("#number-guess").on("keypress", function (event) {
 	if (event.which == 13) {
 		$("#submit-guess").click();
@@ -93,9 +90,8 @@ $("#number-guess").on("keypress", function (event) {
 });
 
 $("#number-guess").on("click", function() {
-	if (guessesLeft === 0) {
-		$(this).val("Sorry, you're out of guesses!");
-		startNewGame();
+	if (guessesLeft === 1) {
+		alert("Last chance - make it a good guess!");
 	}
 });
 
@@ -112,9 +108,9 @@ $("#submit-guess").on("click", function () {
 		} else {
 			//Determine whether the guess matches number & alert user
 			if (isWinner()) {
-				$(".game-box").addClass("winner"); //change background color or do something else exciting
-				alert("You win!");
-				startNewGame();		
+				alert("You win!");	
+				$("#number-guess").val("WINNER!");
+				$("body").addClass("winner"); //change background & hide some text using css class add	
 			//if user runs out of guesses, let them know and start a new game		
 			} else if (!isWinner() && (guessesLeft === 1)) {
 				alert("Sorry, you're out of guesses. Let's start over.");
@@ -122,28 +118,22 @@ $("#submit-guess").on("click", function () {
 			} else {
 				
 				//tell user if they repeated any guesses, how hot or cold, and getting hotter or colder
-				  if (repeatingYourself()) {		
+				 if (repeatingYourself()) {		
 					alert("You're repeating yourself!");
 				} else if (guesses.length > 0) {
 				alert("You're " + hotOrCold() + " but " + gettingWarmer() + "! Guess " + higherOrLower() + ".");
 				}	else {
 				alert("You're " + hotOrCold() + "! Guess " + higherOrLower());
 				}
-				//add current guess to log of previous guesses and lower number of guesses left
+				//add current guess to log of previous guesses and lower the number of guesses left
 				guesses.push($guess);
+				guessesByTemp.push($guess+"("+hotOrCold()+")");
 				guessesLeft--;
 				console.log(guesses, guessesLeft); //log to console to test	
-				$("#updates p").text("Your guesses so far were " + guesses.join(", ") + ". Guesses left: " + guessesLeft + ".");
-
-				//keep a list on display of Hot and Cold answers - need to work on this more
-				//if ($("#hotGuesses").length > 1 || ("#coldGuesses").length > 1) {
-				//	$(".guessList").css("display", "inline");
-				//}
+				$("#updates p").text("Your guesses so far included " + guessesByTemp.join(", ") + ". Guesses left: " + guessesLeft + ".");
 			}
-			
-
 		}
-		
+		//reset the text box input field after each guess is submitted
 		$("#number-guess").val(function(){
 	        return this.defaultValue;
 	    });
@@ -157,8 +147,28 @@ $("#submit-guess").on("click", function () {
 	//guessesLeft reset to 5
 $("#newGame").on("click", startNewGame);
 
-//Get a Hint button tells user the answer
+//Get a hint button - alerts a greater or less than hint; then odd or even; then the answer
 $("#hint").on("click", function() {
-	alert("The correct number is "+num+"!");
-	//guessesLeft--;	 
+	if (hintsLeft === 2) {
+		if (num > 10) {
+		var clueLess = num - 10;
+		alert("The number is greater than " + clueLess);
+		}
+		else {
+		var clueMore = num + 50;
+		alert("The number is less than " + clueMore);
+		} 
+		hintsLeft--;
+	} else if (hintsLeft === 1) {
+		if (num%2 === 0) {
+			alert("The number is even");
+		} else {
+			alert("The number is odd");
+		}
+		hintsLeft--;
+	} else {
+		alert("Fine! The correct number is "+num+"!\nNo more hints!");
+	}
 });
+
+

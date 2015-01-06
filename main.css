@@ -7,13 +7,15 @@ html, body, h1, h2, h3, p, ol, ul, li, a {
 }
 header {
   text-align: center;
-  background: #222;
   color: #fff;
   font-family: 'Bubblegum Sans', cursive;
-  margin: 20px auto;
+  text-shadow: 4px 4px 10px #000;
+  margin: 30px auto;
 }
-body {
-  background: #222;
+/*why did I have to add html before body here? i had to do this so the background gradient wouldn't get cut off*/
+html, body {  
+  background: linear-gradient(#222, #ccc);
+  height: 100%; 
 }
 a {
   color: black;
@@ -67,6 +69,14 @@ h1 {
   padding: 0;
   border-radius: 5px;
 }
+.game-box #youwin {
+  display: none;
+  font-size: 50px;
+  color: #ff0066;
+  font-weight: bold;
+  margin: 20px auto;
+  text-align: center;
+}
 .game-buttons {
   width: 500px;
   height: auto;
@@ -75,23 +85,35 @@ h1 {
   
 }
 .game-buttons button {
+  /*had trouble centering these - had to add the width to make it work but why didn't margin:auto work?*/
   font-size: 25px;
   background: #ff4466;
-  width: 248px;
+  width: 248px; 
   height: auto;
   margin: 0 auto;
   border-radius: 5px;
 }
 .winner {
-  background: #fff;
+  background: url(images/stars.gif) repeat;
 }
-/*.guessList {
-  display: none;
-}*/
+.winner .info {
+  visibility: hidden;
+}
+/*is there a cleaner way to select these next two together?*/
+button:hover {
+  background: #ff7788;
+}
+#submit-guess:hover {
+  background: #ff7788;
+}
+#number-guess:hover {
+  background: #eee;
+}
 footer {
-    margin: 10px;
+    margin: 30px;
     text-align: center;
-    color: #ff0066;
+    color: #000;
     font-family: verdana;
-    font-size: 10px;
+    font-size: 12px;
+    background: transparent;
 }

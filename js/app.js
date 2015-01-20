@@ -71,6 +71,9 @@ function repeatingYourself () {
 }
 
 function startNewGame() {
+	guessesByTemp = [];
+	$("#submit-guess").unbind("click");
+	$("#submit-guess").on("click", process);
 	num = Math.ceil(Math.random()*100);
 	guesses = [];
 	guessesLeft = 5;
@@ -96,7 +99,7 @@ $("#number-guess").on("click", function() {
 });
 
 //User to input a guess in the game-box input field
-$("#submit-guess").on("click", function () {
+function process() {
 	if (guessesLeft == 0) {
 		alert("Game over!");
 		startNewGame();
@@ -111,6 +114,8 @@ $("#submit-guess").on("click", function () {
 				alert("You win!");	
 				$("#number-guess").val("WINNER!");
 				$("body").addClass("winner"); //change background & hide some text using css class add	
+				$("#submit-guess").unbind("click");
+				$("#submit-guess").on("click", startNewGame);
 			//if user runs out of guesses, let them know and start a new game		
 			} else if (!isWinner() && (guessesLeft === 1)) {
 				alert("Sorry, you're out of guesses. Let's start over.");
@@ -138,7 +143,9 @@ $("#submit-guess").on("click", function () {
 	        return this.defaultValue;
 	    });
 	}
-	});
+	}
+
+$("#submit-guess").on("click", process);
 
 
 

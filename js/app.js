@@ -71,6 +71,7 @@ function repeatingYourself () {
 }
 
 function startNewGame() {
+	guessesByTemp = [];
 	num = Math.ceil(Math.random()*100);
 	guesses = [];
 	guessesLeft = 5;
